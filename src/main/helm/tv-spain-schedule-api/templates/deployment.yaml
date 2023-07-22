@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tv-spain-schedule-api.fullname" . }}
+  labels:
+    {{- include "tv-spain-schedule-api.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tv-spain-schedule-api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "tv-spain-schedule-api.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets: 
+        - name: {{ .Values.imagePullSecrets }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /tv-spain-schedule-api/logs
+              name: tv-spain-schedule-api-logs
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 3
+          env:
+            - name: APP_VERSION
+              value: "{{ .Values.image.version }}"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: DB_NAME
+              value: "{{ .Values.db.db_name }}"
+            - name: DB_USER
+              value: "{{ .Values.db.db_user }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.db.db_password }}"
+            - name: TMDB_URL
+              value: "{{ .Values.tmdb.url }}"
+            - name: TMDB_TOKEN
+              value: "{{ .Values.tmdb.token }}"
+            {{ if .Values.cloud.config.enabled -}}
+            - name: SPRING_CLOUD_CONFIG_ENABLED
+              value: "true"
+            - name: SPRING_CLOUD_CONFIG_URL
+              value: "https://{{ .Values.cloud.config.username }}:{{ .Values.cloud.config.password }}@{{ .Values.cloud.config.url }}"
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: tv-spain-schedule-api-logs
+          persistentVolumeClaim:
+            claimName: tv-spain-schedule-api-pvc
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

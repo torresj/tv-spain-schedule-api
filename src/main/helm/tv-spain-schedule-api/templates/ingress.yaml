@@ -1,0 +1,28 @@
+{{ if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "tv-spain-schedule-api.fullname" . }}-ingress
+  labels:
+    {{- include "tv-spain-schedule-api.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.cert_manager.cluster_issuer }}
+spec:
+  ingressClassName: {{ .Values.ingress.controller.class }}
+  tls:
+    - hosts:
+      - {{ .Values.ingress.host }}
+      secretName: {{ include "tv-spain-schedule-api.fullname" . }}-tls-secret
+  rules:
+      - host: {{ .Values.ingress.host }}
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{ include "tv-spain-schedule-api.fullname" . }}
+                  port:
+                    number: {{ .Values.service.port }}
+{{- end }}
+

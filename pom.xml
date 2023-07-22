@@ -17,6 +17,12 @@
 		<java.version>17</java.version>
 		<revision>0.0-SNAPSHOT</revision>
 		<mariadb-java-client.version>3.1.4</mariadb-java-client.version>
+		<lombok.version>1.18.26</lombok.version>
+		<certificate-authority-data></certificate-authority-data>
+		<cluster></cluster>
+		<client-certificate-data></client-certificate-data>
+		<client-key-data></client-key-data>
+		<kubernetes-user></kubernetes-user>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -35,7 +41,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -55,6 +66,16 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/helm/</directory>
+				<filtering>true</filtering>
+				<targetPath>${project.basedir}/target/helm</targetPath>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.hibernate.orm.tooling</groupId>
@@ -77,6 +98,9 @@
 			<plugin>
 				<groupId>org.graalvm.buildtools</groupId>
 				<artifactId>native-maven-plugin</artifactId>
+				<configuration>
+					<imageName>registry.torresj.com/${project.artifactId}-native:${project.version}</imageName>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

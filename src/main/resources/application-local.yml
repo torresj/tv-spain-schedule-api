@@ -5,15 +5,6 @@ spring:
     username: test
     password: test
     driver-class-name: org.h2.Driver
-  jpa:
-    hibernate:
-      database-platform: org.hibernate.dialect.H2Dialect
-      ddl-auto: create-drop
-    properties:
-      jakarta:
-        persistence:
-          sharedCache:
-            mode: UNSPECIFIED
 
 #Loggin
 logging:
