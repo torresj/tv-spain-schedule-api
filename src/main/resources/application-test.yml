@@ -1,0 +1,3 @@
+#Loggin
+logging:
+  config: classpath:logback-spring-test.xml

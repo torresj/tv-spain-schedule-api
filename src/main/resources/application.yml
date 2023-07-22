@@ -1,0 +1,26 @@
+# HTTP Server
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: prod
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+#Server info
+info:
+  app:
+    name: ${spring.application.name}
+    description: "TV Spain schedule API"
+    groupId: com.jtcoding
+    artifactId: tv-spain-schedule-api
+    version: ${APP_VERSION:SNAPSHOT}
+
