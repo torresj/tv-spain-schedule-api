@@ -58,10 +58,6 @@ spec:
               value: "{{ .Values.db.db_user }}"
             - name: DB_PASSWORD
               value: "{{ .Values.db.db_password }}"
-            - name: TMDB_URL
-              value: "{{ .Values.tmdb.url }}"
-            - name: TMDB_TOKEN
-              value: "{{ .Values.tmdb.token }}"
             {{ if .Values.cloud.config.enabled -}}
             - name: SPRING_CLOUD_CONFIG_ENABLED
               value: "true"
