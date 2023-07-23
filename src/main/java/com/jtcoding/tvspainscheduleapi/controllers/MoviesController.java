@@ -3,6 +3,7 @@ package com.jtcoding.tvspainscheduleapi.controllers;
 import com.jtcoding.tvspainscheduleapi.dtos.EventDTO;
 import com.jtcoding.tvspainscheduleapi.services.MovieService;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class MoviesController {
   @GetMapping("/live")
   public ResponseEntity<List<EventDTO>> getLiveMovies() {
     log.info("Getting live movies events");
-    log.info("Time: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")));
+    log.info("Time: " + LocalDateTime.now(ZoneId.of("CET")).format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")));
     var events = movieService.getLiveMovies();
     log.info("live movies event found: " + events.size());
     return ResponseEntity.ok(events);

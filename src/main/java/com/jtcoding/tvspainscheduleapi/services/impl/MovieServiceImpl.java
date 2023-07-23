@@ -6,6 +6,7 @@ import com.jtcoding.tvspainscheduleapi.repositories.EventRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.MovieRepository;
 import com.jtcoding.tvspainscheduleapi.services.MovieService;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,9 @@ public class MovieServiceImpl implements MovieService {
         new java.util.ArrayList<EventDTO>(
             eventRepository
                 .findAllByEventTypeAndEndEventGreaterThanEqualAndStartEventLessThan(
-                    EventType.MOVIE, LocalDateTime.now(), LocalDateTime.now())
+                    EventType.MOVIE,
+                    LocalDateTime.now(ZoneId.of("CET")),
+                    LocalDateTime.now(ZoneId.of("CET")))
                 .parallelStream()
                 .map(
                     eventEntity -> {
