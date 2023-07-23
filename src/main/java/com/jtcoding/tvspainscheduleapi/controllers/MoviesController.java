@@ -1,5 +1,10 @@
 package com.jtcoding.tvspainscheduleapi.controllers;
 
+import com.jtcoding.tvspainscheduleapi.dtos.EventDTO;
+import com.jtcoding.tvspainscheduleapi.services.MovieService;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 public class MoviesController {
-    @GetMapping("/live")
-    public ResponseEntity<String> getLiveMovies(){
-        return ResponseEntity.ok("test");
-    }
+
+  private final MovieService movieService;
+
+  @GetMapping("/live")
+  public ResponseEntity<List<EventDTO>> getLiveMovies() {
+    log.info("Getting live movies events");
+    log.info("Time: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")));
+    var events = movieService.getLiveMovies();
+    log.info("live movies event found: " + events.size());
+    return ResponseEntity.ok(events);
+  }
 }
