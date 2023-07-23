@@ -1,7 +1,9 @@
 package com.jtcoding.tvspainscheduleapi.services.impl;
 
+import com.jtcoding.tvspainscheduleapi.dtos.ChannelDTO;
 import com.jtcoding.tvspainscheduleapi.dtos.EventDTO;
 import com.jtcoding.tvspainscheduleapi.enums.EventType;
+import com.jtcoding.tvspainscheduleapi.repositories.ChannelRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.EventRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.MovieRepository;
 import com.jtcoding.tvspainscheduleapi.services.MovieService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class MovieServiceImpl implements MovieService {
   private final MovieRepository movieRepository;
   private final EventRepository eventRepository;
+  private final ChannelRepository channelRepository;
 
   @Override
   public List<EventDTO> getLiveMovies() {
@@ -32,6 +35,7 @@ public class MovieServiceImpl implements MovieService {
                 .map(
                     eventEntity -> {
                       var movie = movieRepository.findById(eventEntity.getContentId());
+                      var channel = channelRepository.findById(eventEntity.getChannelId());
                       return movie
                           .map(
                               movieEntity ->
@@ -47,6 +51,15 @@ public class MovieServiceImpl implements MovieService {
                                       .imageUrl(movieEntity.getImageUrl())
                                       .interpreters(movieEntity.getInterpreters())
                                       .synopsis(movieEntity.getSynopsis())
+                                      .channel(
+                                          channel
+                                              .map(
+                                                  channelEntity ->
+                                                      ChannelDTO.builder()
+                                                          .logoUrl(channelEntity.getLogoUrl())
+                                                          .name(channelEntity.getName())
+                                                          .build())
+                                              .orElse(null))
                                       .build())
                           .orElse(null);
                     })

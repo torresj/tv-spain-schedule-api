@@ -24,4 +24,5 @@ public class EventDTO {
   private Double rate;
   private String imageUrl;
   private String chapterName;
+  private ChannelDTO channel;
 }
