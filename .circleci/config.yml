@@ -52,10 +52,23 @@ jobs:
       - run:
           name: Login docker registry
           command: docker login $REGISTRIY_URL -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+      # Run test
+      - run:
+          name: Test
+          command: mvn test jacoco:report coveralls:report
+      # Save test report
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
       # Build
       - run:
           name: Build
-          command: mvn -Drevision=$REVISION -Dcertificate-authority-data=$CERTIFICATE_AUTHORITY_DATA -Dcluster=$CLUSTER -Dclient-certificate-data=$CLIENT_CERTIFICATE_DATA -Dclient-key-data=$CLIENT_KEY_DATA -Dkubernetes-user=$KUBERNETES_USER -Pnative spring-boot:build-image
+          command: mvn -Drevision=$REVISION -Dcertificate-authority-data=$CERTIFICATE_AUTHORITY_DATA -Dcluster=$CLUSTER -Dclient-certificate-data=$CLIENT_CERTIFICATE_DATA -Dclient-key-data=$CLIENT_KEY_DATA -Dkubernetes-user=$KUBERNETES_USER -DskipTests=true -Pnative spring-boot:build-image
       # Tag docker image
       - run:
           name: Tag docker images
@@ -110,3 +123,7 @@ workflows:
             - "Kubernetes cluster"
           requires:
             - build
+
+notify:
+  webhooks:
+    - url: https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN

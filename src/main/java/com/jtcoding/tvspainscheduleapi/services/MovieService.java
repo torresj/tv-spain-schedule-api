@@ -1,12 +1,14 @@
 package com.jtcoding.tvspainscheduleapi.services;
 
 import com.jtcoding.tvspainscheduleapi.dtos.EventDTO;
+import com.jtcoding.tvspainscheduleapi.dtos.PageDTO;
+
 import java.util.List;
 
 public interface MovieService {
   List<EventDTO> getLiveMovies();
 
-  List<EventDTO> getTodayMovies();
+  PageDTO getTodayMovies(int nPage, int nElements);
 
-  List<EventDTO> getTomorrowMovies();
+  PageDTO getTomorrowMovies(int nPage, int nElements);
 }
