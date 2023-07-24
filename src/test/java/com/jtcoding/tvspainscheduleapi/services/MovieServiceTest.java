@@ -150,31 +150,31 @@ class MovieServiceTest {
     List<ChannelEntity> channels = generateChannels();
     var now = LocalDateTime.now(ZoneId.of("CET"));
     var entityEvents =
-            List.of(
-                    EventEntity.builder()
-                            .id(1L)
-                            .eventType(EventType.MOVIE)
-                            .channelId(1L)
-                            .contentId(1L)
-                            .startEvent(now.minusHours(1))
-                            .endEvent(now.plusMinutes(30))
-                            .build(),
-                    EventEntity.builder()
-                            .id(2L)
-                            .eventType(EventType.MOVIE)
-                            .channelId(2L)
-                            .contentId(2L)
-                            .startEvent(now.minusHours(1))
-                            .endEvent(now.plusMinutes(400))
-                            .build(),
-                    EventEntity.builder()
-                            .id(3L)
-                            .eventType(EventType.MOVIE)
-                            .channelId(3L)
-                            .contentId(3L)
-                            .startEvent(now.minusHours(2))
-                            .endEvent(now.plusHours(3))
-                            .build());
+        List.of(
+            EventEntity.builder()
+                .id(1L)
+                .eventType(EventType.MOVIE)
+                .channelId(1L)
+                .contentId(1L)
+                .startEvent(now.minusHours(1))
+                .endEvent(now.plusMinutes(30))
+                .build(),
+            EventEntity.builder()
+                .id(2L)
+                .eventType(EventType.MOVIE)
+                .channelId(2L)
+                .contentId(2L)
+                .startEvent(now.minusHours(1))
+                .endEvent(now.plusMinutes(400))
+                .build(),
+            EventEntity.builder()
+                .id(3L)
+                .eventType(EventType.MOVIE)
+                .channelId(3L)
+                .contentId(3L)
+                .startEvent(now.minusHours(2))
+                .endEvent(now.plusHours(3))
+                .build());
 
     when(movieRepository.findById(1L)).thenReturn(Optional.of(movies.get(0)));
     when(movieRepository.findById(2L)).thenReturn(Optional.of(movies.get(1)));
@@ -186,17 +186,17 @@ class MovieServiceTest {
 
     when(eventRepository.findAllByEventTypeAndStartEventGreaterThanEqualAndStartEventLessThan(
             any(), any(), any(), any()))
-            .thenReturn(new PageImpl<>(entityEvents, Pageable.ofSize(3), 3));
+        .thenReturn(new PageImpl<>(entityEvents, Pageable.ofSize(3), 3));
 
     var page = movieService.getTomorrowMovies(0, 20);
 
     Assertions.assertEquals(3, page.getEvents().size());
     Assertions.assertEquals(
-            entityEvents.get(1).getStartEvent(), page.getEvents().get(0).getStart());
+        entityEvents.get(1).getStartEvent(), page.getEvents().get(0).getStart());
     Assertions.assertEquals(
-            entityEvents.get(0).getStartEvent(), page.getEvents().get(1).getStart());
+        entityEvents.get(0).getStartEvent(), page.getEvents().get(1).getStart());
     Assertions.assertEquals(
-            entityEvents.get(2).getStartEvent(), page.getEvents().get(2).getStart());
+        entityEvents.get(2).getStartEvent(), page.getEvents().get(2).getStart());
   }
 
   private List<MovieEntity> generateMovies() {
