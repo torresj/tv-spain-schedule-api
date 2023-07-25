@@ -66,7 +66,7 @@ public class SeriesController {
   public ResponseEntity<PageDTO> getTodaySeries(
       @Parameter(description = "Number of page") @RequestParam int nPage,
       @Parameter(description = "Number of elements per page") @RequestParam int nElements) {
-    log.info("Getting today movies events");
+    log.info("Getting today series events");
     var page =
         serieService.getTodaySeries(
             nPage, nElements > MAX_ELEMENTS_PER_PAGE ? MAX_ELEMENTS_PER_PAGE : nElements);
