@@ -37,7 +37,7 @@ db:
   db_password:
 
 ingress:
-  enabled: true
+  enabled: false
   controller:
     class: nginx
   host: tv.schedule.torresj.com
