@@ -40,7 +40,7 @@ ingress:
   enabled: true
   controller:
     class: nginx
-  host: nosequever.es/api
+  host: api.tv.schedule.torresj.com
   path: /
   tls:
     enabled: true
