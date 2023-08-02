@@ -37,10 +37,10 @@ db:
   db_password:
 
 ingress:
-  enabled: false
+  enabled: true
   controller:
     class: nginx
-  host: tv.schedule.torresj.com
+  host: nosequever.es/api
   path: /
   tls:
     enabled: true
