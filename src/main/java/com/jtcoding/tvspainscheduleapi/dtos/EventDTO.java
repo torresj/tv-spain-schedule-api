@@ -16,6 +16,7 @@ public class EventDTO {
   private LocalDateTime start;
   private LocalDateTime end;
   private long duration;
+  private int progress;
   private String name;
   private String synopsis;
   private String classification;

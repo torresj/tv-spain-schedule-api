@@ -10,6 +10,7 @@ import com.jtcoding.tvspainscheduleapi.repositories.*;
 import com.jtcoding.tvspainscheduleapi.services.SerieService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -100,6 +101,7 @@ public class SerieServiceImpl implements SerieService {
         chapter
             .map(chapterEntity -> serieRepository.findById(chapterEntity.getSerieId()))
             .orElse(null);
+    var progress = Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
     return serie
         .map(
             serieEntity ->
@@ -108,6 +110,7 @@ public class SerieServiceImpl implements SerieService {
                     .end(eventEntity.getEndEvent())
                     .eventType(eventEntity.getEventType())
                     .duration(eventEntity.getDuration())
+                        .progress((int) progress)
                     .name(serieEntity.getName())
                     .rate(serieEntity.getRate())
                     .classification(serieEntity.getClassification())

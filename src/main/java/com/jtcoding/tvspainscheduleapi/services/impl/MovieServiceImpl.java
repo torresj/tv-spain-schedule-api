@@ -11,6 +11,7 @@ import com.jtcoding.tvspainscheduleapi.repositories.MovieRepository;
 import com.jtcoding.tvspainscheduleapi.services.MovieService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,6 +97,7 @@ public class MovieServiceImpl implements MovieService {
   private EventDTO mapEventEntityToDto(EventEntity eventEntity) {
     var movie = movieRepository.findById(eventEntity.getContentId());
     var channel = channelRepository.findById(eventEntity.getChannelId());
+    var progress = Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
     return movie
         .map(
             movieEntity ->
@@ -104,6 +106,7 @@ public class MovieServiceImpl implements MovieService {
                     .end(eventEntity.getEndEvent())
                     .eventType(eventEntity.getEventType())
                     .duration(eventEntity.getDuration())
+                        .progress((int) progress)
                     .name(movieEntity.getName())
                     .rate(movieEntity.getRate())
                     .classification(movieEntity.getClassification())
