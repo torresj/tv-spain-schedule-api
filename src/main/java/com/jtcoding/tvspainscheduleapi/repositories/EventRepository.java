@@ -2,6 +2,8 @@ package com.jtcoding.tvspainscheduleapi.repositories;
 
 import com.jtcoding.tvspainscheduleapi.entities.EventEntity;
 import com.jtcoding.tvspainscheduleapi.enums.EventType;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -19,4 +21,6 @@ public interface EventRepository extends CrudRepository<EventEntity, Long> {
 
   Page<EventEntity> findAllByEventTypeAndStartEventGreaterThanEqualAndStartEventLessThan(
       EventType type, LocalDateTime to, LocalDateTime from, Pageable pageable);
+
+  List<EventEntity> findAllByStartEventBefore(LocalDateTime date);
 }
