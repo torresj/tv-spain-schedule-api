@@ -7,6 +7,7 @@ metadata:
     {{- include "tv-spain-schedule-api.labels" . | nindent 4 }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.cert_manager.cluster_issuer }}
+    nginx.ingress.kubernetes.io/limit-rps: "10"
 spec:
   ingressClassName: {{ .Values.ingress.controller.class }}
   tls:
