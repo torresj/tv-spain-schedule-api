@@ -22,8 +22,11 @@ public class EventEntity {
   @Column(nullable = false)
   private long channelId;
 
-  @Column(nullable = false)
+  @Column
   private long contentId;
+
+  @Column
+  private String sportEventName;
 
   @Column(nullable = false)
   private EventType eventType;
