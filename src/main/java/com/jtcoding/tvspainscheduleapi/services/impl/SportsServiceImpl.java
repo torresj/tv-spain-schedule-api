@@ -8,6 +8,7 @@ import com.jtcoding.tvspainscheduleapi.enums.EventType;
 import com.jtcoding.tvspainscheduleapi.repositories.ChannelRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.EventRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.MovieRepository;
+import com.jtcoding.tvspainscheduleapi.repositories.SportRepository;
 import com.jtcoding.tvspainscheduleapi.services.MovieService;
 import com.jtcoding.tvspainscheduleapi.services.SportsService;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ import java.util.List;
 @Slf4j
 public class SportsServiceImpl implements SportsService {
     private final EventRepository eventRepository;
+    private final SportRepository sportRepository;
     private final ChannelRepository channelRepository;
 
     @Override
@@ -82,24 +84,31 @@ public class SportsServiceImpl implements SportsService {
     }
 
     private EventDTO mapEventEntityToDto(EventEntity eventEntity) {
+        var sport = sportRepository.findById(eventEntity.getContentId());
         var channel = channelRepository.findById(eventEntity.getChannelId());
         var progress = Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
-        return EventDTO.builder()
-                .start(eventEntity.getStartEvent())
-                .end(eventEntity.getEndEvent())
-                .eventType(eventEntity.getEventType())
-                .duration(eventEntity.getDuration())
-                .progress((int) progress)
-                .name(eventEntity.getSportEventName())
-                .channel(
-                        channel
-                                .map(
-                                        channelEntity ->
-                                                ChannelDTO.builder()
-                                                        .logoUrl(channelEntity.getLogoUrl())
-                                                        .name(channelEntity.getName())
-                                                        .build())
-                                .orElse(null))
-                .build();
+        return sport
+                .map(
+                        sportEntity ->
+                                EventDTO.builder()
+                                        .start(eventEntity.getStartEvent())
+                                        .end(eventEntity.getEndEvent())
+                                        .eventType(eventEntity.getEventType())
+                                        .duration(eventEntity.getDuration())
+                                        .progress((int) progress)
+                                        .name(sportEntity.getName())
+                                        .classification(sportEntity.getClassification())
+                                        .synopsis(sportEntity.getSynopsis())
+                                        .channel(
+                                                channel
+                                                        .map(
+                                                                channelEntity ->
+                                                                        ChannelDTO.builder()
+                                                                                .logoUrl(channelEntity.getLogoUrl())
+                                                                                .name(channelEntity.getName())
+                                                                                .build())
+                                                        .orElse(null))
+                                        .build())
+                .orElse(null);
     }
 }
