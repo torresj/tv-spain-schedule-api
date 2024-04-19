@@ -21,7 +21,6 @@
 		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
 		<certificate-authority-data></certificate-authority-data>
 		<cluster></cluster>
 		<client-certificate-data></client-certificate-data>
