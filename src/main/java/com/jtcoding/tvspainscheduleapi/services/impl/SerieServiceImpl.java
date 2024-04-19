@@ -106,6 +106,7 @@ public class SerieServiceImpl implements SerieService {
         .map(
             serieEntity ->
                 EventDTO.builder()
+                        .id(eventEntity.getId())
                     .start(eventEntity.getStartEvent())
                     .end(eventEntity.getEndEvent())
                     .eventType(eventEntity.getEventType())

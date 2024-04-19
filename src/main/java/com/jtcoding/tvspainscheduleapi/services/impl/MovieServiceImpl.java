@@ -102,6 +102,7 @@ public class MovieServiceImpl implements MovieService {
         .map(
             movieEntity ->
                 EventDTO.builder()
+                        .id(eventEntity.getId())
                     .start(eventEntity.getStartEvent())
                     .end(eventEntity.getEndEvent())
                     .eventType(eventEntity.getEventType())

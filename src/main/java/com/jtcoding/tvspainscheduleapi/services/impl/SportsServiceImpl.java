@@ -7,9 +7,7 @@ import com.jtcoding.tvspainscheduleapi.entities.EventEntity;
 import com.jtcoding.tvspainscheduleapi.enums.EventType;
 import com.jtcoding.tvspainscheduleapi.repositories.ChannelRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.EventRepository;
-import com.jtcoding.tvspainscheduleapi.repositories.MovieRepository;
 import com.jtcoding.tvspainscheduleapi.repositories.SportRepository;
-import com.jtcoding.tvspainscheduleapi.services.MovieService;
 import com.jtcoding.tvspainscheduleapi.services.SportsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,6 +89,7 @@ public class SportsServiceImpl implements SportsService {
                 .map(
                         sportEntity ->
                                 EventDTO.builder()
+                                        .id(eventEntity.getId())
                                         .start(eventEntity.getStartEvent())
                                         .end(eventEntity.getEndEvent())
                                         .eventType(eventEntity.getEventType())

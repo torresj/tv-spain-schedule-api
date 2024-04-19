@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class EventDTO {
+  private long id;
   private EventType eventType;
   private LocalDateTime start;
   private LocalDateTime end;
