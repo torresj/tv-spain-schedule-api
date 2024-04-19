@@ -72,7 +72,7 @@ jobs:
       # Tag docker image
       - run:
           name: Tag docker images
-          command: docker tag tv-spain-schedule-api:1.$REVISION $REGISTRIY_URL/tv-spain-schedule-api:2.$REVISION
+          command: docker tag tv-spain-schedule-api:2.$REVISION $REGISTRIY_URL/tv-spain-schedule-api:2.$REVISION
       # Push docker image
       - run:
           name: Push docker images
