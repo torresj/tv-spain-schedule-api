@@ -5,6 +5,7 @@ import com.jtcoding.tvspainscheduleapi.dtos.EventDTO;
 import com.jtcoding.tvspainscheduleapi.entities.ChannelEntity;
 import com.jtcoding.tvspainscheduleapi.entities.ChapterEntity;
 import com.jtcoding.tvspainscheduleapi.entities.EventEntity;
+import com.jtcoding.tvspainscheduleapi.exceptions.ChannelException;
 import com.jtcoding.tvspainscheduleapi.exceptions.EventException;
 import com.jtcoding.tvspainscheduleapi.repositories.*;
 import com.jtcoding.tvspainscheduleapi.services.ChannelService;
@@ -35,5 +36,14 @@ public class ChannelServiceImpl implements ChannelService {
                         .logoUrl(entity.getLogoUrl())
                         .name(entity.getName()).build()
         ).toList();
+  }
+
+  @Override
+  public ChannelDTO getChannel(long id) throws ChannelException {
+    return channelRepository.findById(id).map(entity ->
+            ChannelDTO.builder()
+                    .id(entity.getId())
+                    .logoUrl(entity.getLogoUrl())
+                    .name(entity.getName()).build()).orElseThrow(ChannelException::new);
   }
 }

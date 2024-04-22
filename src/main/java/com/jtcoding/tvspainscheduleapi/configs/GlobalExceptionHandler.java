@@ -1,5 +1,6 @@
 package com.jtcoding.tvspainscheduleapi.configs;
 
+import com.jtcoding.tvspainscheduleapi.exceptions.ChannelException;
 import com.jtcoding.tvspainscheduleapi.exceptions.EventException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
@@ -16,6 +17,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemDetail problemDetail =
                 ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Event not found");
         problemDetail.setTitle("Event Not Found");
+        log.error(e.toString());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ChannelException.class)
+    ProblemDetail channelNotFound(ChannelException e) {
+        ProblemDetail problemDetail =
+                ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Channel not found");
+        problemDetail.setTitle("Channel Not Found");
         log.error(e.toString());
         return problemDetail;
     }

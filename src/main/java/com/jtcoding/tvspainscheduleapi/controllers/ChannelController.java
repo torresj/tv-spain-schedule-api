@@ -2,6 +2,7 @@ package com.jtcoding.tvspainscheduleapi.controllers;
 
 import com.jtcoding.tvspainscheduleapi.dtos.ChannelDTO;
 import com.jtcoding.tvspainscheduleapi.dtos.EventDTO;
+import com.jtcoding.tvspainscheduleapi.exceptions.ChannelException;
 import com.jtcoding.tvspainscheduleapi.exceptions.EventException;
 import com.jtcoding.tvspainscheduleapi.services.ChannelService;
 import com.jtcoding.tvspainscheduleapi.services.EventService;
@@ -26,6 +27,27 @@ import java.util.List;
 public class ChannelController {
 
   private final ChannelService channelService;
+
+  @Operation(summary = "Get channel by id")
+  @ApiResponses(
+          value = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "Success",
+                          content = {
+                                  @Content(
+                                          mediaType = "application/json",
+                                          schema = @Schema(implementation = ChannelDTO.class))
+                          }),
+                  @ApiResponse(responseCode = "404", description = "Not found", content = @Content),
+          })
+  @GetMapping("/{id}")
+  public ResponseEntity<ChannelDTO> getChannel(@Parameter(description = "Channel id") @PathVariable long id) throws ChannelException {
+    log.info("Getting channel {}", id);
+    var channel = channelService.getChannel(id);
+    log.info("Channel {} found: {}",id, channel.getName());
+    return ResponseEntity.ok(channel);
+  }
 
   @Operation(summary = "Get channels")
   @ApiResponses(
