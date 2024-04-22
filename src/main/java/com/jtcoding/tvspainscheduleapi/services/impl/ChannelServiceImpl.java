@@ -28,9 +28,7 @@ public class ChannelServiceImpl implements ChannelService {
 
   @Override
   public List<ChannelDTO> getChannels() {
-    var channelEntities = new ArrayList<ChannelEntity>();
-    channelRepository.findAll().forEach(channelEntities::add);
-    return channelEntities.stream()
+    return channelRepository.findByOrderByNameDesc().stream()
         .map(entity ->
                 ChannelDTO.builder()
                         .logoUrl(entity.getLogoUrl())
