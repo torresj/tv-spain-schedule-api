@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ChannelRepository extends CrudRepository<ChannelEntity, Long> {
-    List<ChannelEntity> findByOrderByNameDesc();
+    List<ChannelEntity> findByOrderByNameAsc();
 }
