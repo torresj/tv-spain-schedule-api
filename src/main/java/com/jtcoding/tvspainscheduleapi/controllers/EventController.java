@@ -46,4 +46,46 @@ public class EventController {
     log.info("Event {} found: {}",id, event.getName());
     return ResponseEntity.ok(event);
   }
+
+  @Operation(summary = "Get today events by channel id (CET)")
+  @ApiResponses(
+          value = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "Success",
+                          content = {
+                                  @Content(
+                                          mediaType = "application/json",
+                                          array = @ArraySchema(schema = @Schema(implementation = EventDTO.class)))
+                          })
+          })
+  @GetMapping("/today")
+  public ResponseEntity<List<EventDTO>> getTodayEventsByChannel(
+          @Parameter(description = "Channel ID") @RequestParam long channelId) {
+    log.info("Getting today events by channel id {}", channelId);
+    var events = eventService.getTodayEventsByChannel(channelId);
+    log.info("Today events found for channel {}: {}",channelId,events.size());
+    return ResponseEntity.ok(events);
+  }
+
+  @Operation(summary = "Get tomorrow events by channel id (CET)")
+  @ApiResponses(
+          value = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "Success",
+                          content = {
+                                  @Content(
+                                          mediaType = "application/json",
+                                          array = @ArraySchema(schema = @Schema(implementation = EventDTO.class)))
+                          })
+          })
+  @GetMapping("/tomorrow")
+  public ResponseEntity<List<EventDTO>> getTomorrowEventsByChannel(
+          @Parameter(description = "Channel ID") @RequestParam long channelId) {
+    log.info("Getting tomorrow events by channel id {}", channelId);
+    var events = eventService.getTomorrowEventsByChannel(channelId);
+    log.info("Tomorrow events found for channel {}: {}",channelId,events.size());
+    return ResponseEntity.ok(events);
+  }
 }

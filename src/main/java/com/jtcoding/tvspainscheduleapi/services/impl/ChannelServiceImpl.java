@@ -31,6 +31,7 @@ public class ChannelServiceImpl implements ChannelService {
     return channelRepository.findByOrderByNameAsc().stream()
         .map(entity ->
                 ChannelDTO.builder()
+                        .id(entity.getId())
                         .logoUrl(entity.getLogoUrl())
                         .name(entity.getName()).build()
         ).toList();

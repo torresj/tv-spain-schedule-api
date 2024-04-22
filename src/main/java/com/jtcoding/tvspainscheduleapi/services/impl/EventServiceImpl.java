@@ -10,8 +10,11 @@ import com.jtcoding.tvspainscheduleapi.services.EventService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +36,39 @@ public class EventServiceImpl implements EventService {
         case MOVIE -> mapMovieEventEntityToDto(event);
         case SPORT -> mapSportEventEntityToDto(event);
     };
+  }
+
+  @Override
+  public List<EventDTO> getTodayEventsByChannel(long channelId) {
+    var now = LocalDateTime.now(ZoneId.of("CET"));
+    return eventRepository.findAllByChannelIdAndEndEventGreaterThanAndStartEventLessThan(
+            channelId,
+            now,
+            LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 23, 59),
+            Sort.by("startEvent").ascending()
+    ).stream().map(event -> switch (event.getEventType()){
+        case SERIE -> mapSerieEventEntityToDto(event);
+        case MOVIE -> mapMovieEventEntityToDto(event);
+        case SPORT -> mapSportEventEntityToDto(event);
+    }).toList();
+  }
+
+  @Override
+  public List<EventDTO> getTomorrowEventsByChannel(long channelId) {
+    var now = LocalDateTime.now(ZoneId.of("CET"));
+    var tomorrow = now.plusDays(1);
+    return eventRepository.findAllByChannelIdAndStartEventGreaterThanEqualAndStartEventLessThan(
+            channelId,
+            LocalDateTime.of(
+                    tomorrow.getYear(), tomorrow.getMonth(), tomorrow.getDayOfMonth(), 0, 0),
+            LocalDateTime.of(
+                    tomorrow.getYear(), tomorrow.getMonth(), tomorrow.getDayOfMonth(), 23, 59),
+            Sort.by("startEvent").ascending()
+    ).stream().map(event -> switch (event.getEventType()){
+      case SERIE -> mapSerieEventEntityToDto(event);
+      case MOVIE -> mapMovieEventEntityToDto(event);
+      case SPORT -> mapSportEventEntityToDto(event);
+    }).toList();
   }
 
   private EventDTO mapSportEventEntityToDto(EventEntity eventEntity) {
@@ -57,6 +93,7 @@ public class EventServiceImpl implements EventService {
                                                     .map(
                                                             channelEntity ->
                                                                     ChannelDTO.builder()
+                                                                            .id(channelEntity.getId())
                                                                             .logoUrl(channelEntity.getLogoUrl())
                                                                             .name(channelEntity.getName())
                                                                             .build())
@@ -96,6 +133,7 @@ public class EventServiceImpl implements EventService {
                                                     .map(
                                                             channelEntity ->
                                                                     ChannelDTO.builder()
+                                                                            .id(channelEntity.getId())
                                                                             .logoUrl(channelEntity.getLogoUrl())
                                                                             .name(channelEntity.getName())
                                                                             .build())
@@ -129,7 +167,7 @@ public class EventServiceImpl implements EventService {
                         channel
                             .map(
                                 channelEntity ->
-                                    ChannelDTO.builder()
+                                    ChannelDTO.builder().id(channelEntity.getId())
                                         .logoUrl(channelEntity.getLogoUrl())
                                         .name(channelEntity.getName())
                                         .build())

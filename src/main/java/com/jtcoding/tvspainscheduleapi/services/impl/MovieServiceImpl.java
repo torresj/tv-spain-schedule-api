@@ -120,6 +120,7 @@ public class MovieServiceImpl implements MovieService {
                             .map(
                                 channelEntity ->
                                     ChannelDTO.builder()
+                                            .id(channelEntity.getId())
                                         .logoUrl(channelEntity.getLogoUrl())
                                         .name(channelEntity.getName())
                                         .build())

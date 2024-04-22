@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class ChannelDTO {
+  private long id;
   private String name;
   private String logoUrl;
 }

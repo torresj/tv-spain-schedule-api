@@ -103,6 +103,7 @@ public class SportsServiceImpl implements SportsService {
                                                         .map(
                                                                 channelEntity ->
                                                                         ChannelDTO.builder()
+                                                                                .id(channelEntity.getId())
                                                                                 .logoUrl(channelEntity.getLogoUrl())
                                                                                 .name(channelEntity.getName())
                                                                                 .build())
