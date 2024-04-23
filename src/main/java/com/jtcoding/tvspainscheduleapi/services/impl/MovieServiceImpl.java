@@ -97,7 +97,7 @@ public class MovieServiceImpl implements MovieService {
   private EventDTO mapEventEntityToDto(EventEntity eventEntity) {
     var movie = movieRepository.findById(eventEntity.getContentId());
     var channel = channelRepository.findById(eventEntity.getChannelId());
-    var progress = Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
+    var progress = (int) Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
     return movie
         .map(
             movieEntity ->
@@ -107,7 +107,7 @@ public class MovieServiceImpl implements MovieService {
                     .end(eventEntity.getEndEvent())
                     .eventType(eventEntity.getEventType())
                     .duration(eventEntity.getDuration())
-                        .progress((int) progress)
+                        .progress(Math.max(progress, 0))
                     .name(movieEntity.getName())
                     .rate(movieEntity.getRate())
                     .classification(movieEntity.getClassification())

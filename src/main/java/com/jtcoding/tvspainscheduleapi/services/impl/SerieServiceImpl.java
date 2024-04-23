@@ -101,7 +101,7 @@ public class SerieServiceImpl implements SerieService {
         chapter
             .map(chapterEntity -> serieRepository.findById(chapterEntity.getSerieId()))
             .orElse(null);
-    var progress = Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
+    var progress = (int) Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
     return serie
         .map(
             serieEntity ->
@@ -111,7 +111,7 @@ public class SerieServiceImpl implements SerieService {
                     .end(eventEntity.getEndEvent())
                     .eventType(eventEntity.getEventType())
                     .duration(eventEntity.getDuration())
-                        .progress((int) progress)
+                        .progress(Math.max(progress, 0))
                     .name(serieEntity.getName())
                     .rate(serieEntity.getRate())
                     .classification(serieEntity.getClassification())

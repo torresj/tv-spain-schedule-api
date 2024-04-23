@@ -84,7 +84,7 @@ public class SportsServiceImpl implements SportsService {
     private EventDTO mapEventEntityToDto(EventEntity eventEntity) {
         var sport = sportRepository.findById(eventEntity.getContentId());
         var channel = channelRepository.findById(eventEntity.getChannelId());
-        var progress = Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
+        var progress = (int) Math.round(eventEntity.getStartEvent().until(LocalDateTime.now(ZoneId.of("CET")), ChronoUnit.MINUTES) * 100.0 / eventEntity.getDuration());
         return sport
                 .map(
                         sportEntity ->
@@ -94,7 +94,7 @@ public class SportsServiceImpl implements SportsService {
                                         .end(eventEntity.getEndEvent())
                                         .eventType(eventEntity.getEventType())
                                         .duration(eventEntity.getDuration())
-                                        .progress((int) progress)
+                                        .progress(Math.max(progress, 0))
                                         .name(sportEntity.getName())
                                         .classification(sportEntity.getClassification())
                                         .synopsis(sportEntity.getSynopsis())
