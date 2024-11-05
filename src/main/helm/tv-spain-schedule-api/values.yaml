@@ -14,7 +14,10 @@ imagePullSecrets: regcred
 nameOverride: "tv-spain-schedule-api"
 fullnameOverride: "tv-spain-schedule-api"
 
-podAnnotations: {}
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8080"
+  prometheus.io/path: "/actuator/prometheus"
 
 podSecurityContext: {}  # fsGroup: 2000
 

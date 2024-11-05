@@ -22,6 +22,7 @@
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
+		<micrometer-registry-prometheus.version>1.13.6</micrometer-registry-prometheus.version>
 		<certificate-authority-data></certificate-authority-data>
 		<cluster></cluster>
 		<client-certificate-data></client-certificate-data>
@@ -31,7 +32,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>${micrometer-registry-prometheus.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
