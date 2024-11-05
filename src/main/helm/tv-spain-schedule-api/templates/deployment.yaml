@@ -39,13 +39,13 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 1
+            initialDelaySeconds: 30
             periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 1
+            initialDelaySeconds: 30
             periodSeconds: 3
           env:
             - name: APP_VERSION
