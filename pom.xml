@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.jtcoding</groupId>
 	<artifactId>tv-spain-schedule-api</artifactId>
-	<version>2.${revision}</version>
+	<version>3.${revision}</version>
 	<name>tv-spain-schedule-api</name>
 	<description>TV Spain schedule API</description>
 	<properties>
@@ -121,7 +121,7 @@
 						</ports>
 					</container>
 					<to>
-						<image>registry.torresj.com/nursing-sas-ope-info:${project.version}</image>
+						<image>registry.torresj.com/tv-spain-schedule-api:${project.version}</image>
 					</to>
 				</configuration>
 				<executions>
