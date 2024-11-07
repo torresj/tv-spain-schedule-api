@@ -69,7 +69,7 @@ spec:
       volumes:
         - name: tv-spain-schedule-api-logs
           persistentVolumeClaim:
-            claimName: tv-spain-schedule-api-pv
+            claimName: tv-spain-schedule-api-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
