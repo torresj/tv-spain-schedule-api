@@ -2,10 +2,6 @@
 server:
   port: 8080
 
-spring:
-  profiles:
-    active: prod
-
 management:
   endpoints:
     web:
