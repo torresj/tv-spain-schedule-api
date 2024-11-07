@@ -4,7 +4,7 @@
               class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %d{HH:mm:ss.SSS} %highlight(%-5level) [%magenta(%-36.36logger)] - %msg%n
+                %d{HH:mm:ss.SSS} %highlight(%-5level) [%magenta(%-36.36logger)] [%green(%X{UUID})] - %msg%n
             </Pattern>
         </layout>
     </appender>

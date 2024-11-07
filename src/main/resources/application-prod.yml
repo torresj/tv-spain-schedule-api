@@ -8,7 +8,7 @@ spring:
 
 #Loggin
 logging:
-  config: classpath:logback-spring-prod.xml
+  config: classpath:logback-spring-local.xml
 
 management:
   endpoints:
