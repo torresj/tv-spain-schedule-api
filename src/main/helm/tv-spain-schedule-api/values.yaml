@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.torresj.com
+  repository: registry.torresj.es
   name: tv-spain-schedule-api
   version: @project.version@
   pullPolicy: IfNotPresent
@@ -43,7 +43,7 @@ ingress:
   enabled: true
   controller:
     class: nginx
-  host: api.tv.schedule.torresj.com
+  host: api.nosequever.es
   path: /
   tls:
     enabled: true

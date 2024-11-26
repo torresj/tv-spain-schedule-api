@@ -121,7 +121,7 @@
 						</ports>
 					</container>
 					<to>
-						<image>registry.torresj.com/tv-spain-schedule-api:${project.version}</image>
+						<image>registry.torresj.es/tv-spain-schedule-api:${project.version}</image>
 					</to>
 				</configuration>
 				<executions>

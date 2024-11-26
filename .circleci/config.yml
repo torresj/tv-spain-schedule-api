@@ -27,7 +27,7 @@ jobs:
       # Login docker registry
       - run:
           name: Login docker registry
-          command: docker login $REGISTRIY_URL -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+          command: docker login $REGISTRY_URL -u $REGISTRY_USER -p $REGISTRY_PASSWORD
       # Run test
       - run:
           name: Test
@@ -63,7 +63,7 @@ jobs:
       # Add chartmuseum repo
       - run:
           name: Add chartmuseum repo
-          command: helm repo add torresj https://charts.torresj.com --username $CHARTS_USER --password $CHARTS_PASSWORD && helm repo update
+          command: helm repo add torresj https://charts.torresj.es --username $CHARTS_USER --password $CHARTS_PASSWORD && helm repo update
       # Generate and push chart
       - run:
           name: Push chart
