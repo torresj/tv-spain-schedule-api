@@ -85,10 +85,10 @@ workflows:
     jobs:
       - build:
           context:
-            - "Kubernetes cluster"
+            - "Kubernetes cluster v2"
       - deploy:
           context:
-            - "Kubernetes cluster"
+            - "Kubernetes cluster v2"
           requires:
             - build
 
