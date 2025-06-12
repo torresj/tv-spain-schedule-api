@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: tv-spain-schedule-api-pvc
 spec:
-  storageClassName: nfs-storageclass
+  storageClassName: nfs-client
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 500M
