@@ -63,7 +63,7 @@ jobs:
       # Add chartmuseum repo
       - run:
           name: Add chartmuseum repo
-          command: helm repo add torresj https://charts.torresj.es --username $CHARTS_USER --password $CHARTS_PASSWORD && helm repo update
+          command: helm repo add torresj $CHARTS_URL --username $CHARTS_USER --password $CHARTS_PASSWORD && helm repo update
       # Generate and push chart
       - run:
           name: Push chart
@@ -71,11 +71,11 @@ jobs:
       # Install chart
       - run:
           name: Install chart
-          command: helm upgrade tv-spain-schedule-api helm/tv-spain-schedule-api -n tvschedule --set db.db_user=$DB_USER,db.db_name=$DB_NAME,db.db_password=$DB_PASSWORD --install --kubeconfig=helm/kubeconfig
+          command: helm upgrade tv-spain-schedule-api helm/tv-spain-schedule-api -n nsqv --set db.db_user=$DB_USER,db.db_name=$DB_NAME,db.db_password=$DB_PASSWORD --install --kubeconfig=helm/kubeconfig
       # Check deployment
       - run:
           name: Check deployment
-          command: kubectl rollout status deployment tv-spain-schedule-api --timeout=180s -n tvschedule --kubeconfig=helm/kubeconfig
+          command: kubectl rollout status deployment tv-spain-schedule-api --timeout=180s -n nsqv --kubeconfig=helm/kubeconfig
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
