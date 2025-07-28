@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Generate revision
           command: |
-            echo 'export REVISION="${CIRCLE_BUILD_NUM}.$(echo -n $CIRCLE_SHA1 | tail -c 2)"' >> $BASH_ENV
+            echo 'export REVISION="${CIRCLE_BUILD_NUM}.$(echo -n $CIRCLE_SHA1 | tail -c 8 | tr "a-f" "1-6")"' >> $BASH_ENV
             source $BASH_ENV
       # Login docker registry
       - run:
