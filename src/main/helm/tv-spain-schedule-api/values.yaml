@@ -43,7 +43,7 @@ ingress:
   enabled: true
   controller:
     class: nginx
-  host: api.nosequever.es
+  host: api.nosequever.torresj.es
   path: /
   tls:
     enabled: true
