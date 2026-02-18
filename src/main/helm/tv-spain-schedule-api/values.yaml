@@ -11,8 +11,8 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: regcred
-nameOverride: "tv-spain-schedule-api"
-fullnameOverride: "tv-spain-schedule-api"
+nameOverride: "teletop-api"
+fullnameOverride: "teletop-api"
 
 podAnnotations:
   prometheus.io/scrape: "true"
@@ -43,7 +43,7 @@ ingress:
   enabled: true
   controller:
     class: nginx
-  host: api.nosequever.torresj.es
+  host: api.teletop.es
   path: /
   tls:
     enabled: true
