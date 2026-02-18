@@ -75,7 +75,7 @@ jobs:
       # Check deployment
       - run:
           name: Check deployment
-          command: kubectl rollout status deployment tv-spain-schedule-api --timeout=180s -n nsqv --kubeconfig=helm/kubeconfig
+          command: kubectl rollout status deployment teletop-api --timeout=180s -n nsqv --kubeconfig=helm/kubeconfig
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
